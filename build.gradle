@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        maven { url("https://maven.aliyun.com/repository/public") }
+        maven { url("https://maven.aliyun.com/repository/spring") }
+        maven { url("https://maven.aliyun.com/repository/mapr-public") }
+        maven { url("https://maven.aliyun.com/repository/spring-plugin") }
+        maven { url("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { url("https://maven.aliyun.com/repository/google") }
+        maven { url("https://maven.aliyun.com/repository/jcenter") }
+    }
+}
+HashMap<String, String> systemEnv = new HashMap<String, String>(System.getenv())
+ext {
+    mainVersion = systemEnv.getOrDefault("MAIN_VERSION", "1.0.0")
+    mavenRepositoryUrlList = [
+            "https://maven.aliyun.com/repository/public",
+            "https://maven.aliyun.com/repository/spring",
+            "https://maven.aliyun.com/repository/mapr-public",
+            "https://maven.aliyun.com/repository/spring-plugin",
+            "https://maven.aliyun.com/repository/gradle-plugin",
+            "https://maven.aliyun.com/repository/google",
+            "https://maven.aliyun.com/repository/jcenter",
+    ]
+    gitCommitId = { ->
+        String gitCommitIdKey = "GIT_COMMIT_ID"
+        if (!systemEnv.containsKey(gitCommitIdKey)) {
+            String defaultGitCommitId = 'developing'
+            println("WARNING: ${gitCommitIdKey} not found in env, using '${defaultGitCommitId}'")
+            return defaultGitCommitId
+        }
+        return systemEnv.get(gitCommitIdKey).trim()
+    }
+    fullVersion = "${ext.mainVersion}-C${ext.gitCommitId()}"
+    systemEnvMap = systemEnv
+}
