@@ -1,0 +1,4 @@
+Id:VARCHAR Name:VARCHAR Score:INTEGER
+1,小明,90
+2,小红,98
+3,小亮,95
