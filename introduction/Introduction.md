@@ -1,7 +1,7 @@
 Apache Calcite (https://calcite.apache.org/)
 
 ###Calcite 能干什么
-- 是一个标准SQL解析器，和 标准JDBC driver
+- 是一个标准SQL解析器，和 实现JDBC标准的一个驱动driver
 - 是一个SQL查询优化器
 - 提供一个数据联邦查询的标准实现
 
