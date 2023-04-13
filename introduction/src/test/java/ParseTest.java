@@ -21,6 +21,10 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all")
 public class ParseTest {
 
+    /**
+     * change dialect
+     * @throws SqlParseException
+     */
     @Test
     void parsePlainSQL() throws SqlParseException {
         String sql = "select id, name, cast(created_at as date) from redshift.users";

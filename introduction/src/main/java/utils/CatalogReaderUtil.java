@@ -16,8 +16,8 @@ public class CatalogReaderUtil {
     public static CalciteCatalogReader createCatalogReader(SqlParser.Config parserConfig) throws URISyntaxException {
         SchemaPlus rootSchema = Frameworks.createRootSchema(true);
         rootSchema.add("csv",new CsvSchema("data.csv"));
-        rootSchema.add("csv",new CsvSchema("dataA.csv"));
-        rootSchema.add("csv",new CsvSchema("dataB.csv"));
+//        rootSchema.add("csv",new CsvSchema("dataA.csv"));
+//        rootSchema.add("csv",new CsvSchema("dataB.csv"));
         return createCatalogReader(parserConfig, rootSchema);
     }
 
@@ -25,7 +25,7 @@ public class CatalogReaderUtil {
 
         Properties prop = new Properties();
         prop.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.camelName(),
-                String.valueOf(parserConfig.caseSensitive()));
+                Boolean.TRUE.toString());
         CalciteConnectionConfigImpl calciteConnectionConfig = new CalciteConnectionConfigImpl(prop);
         return new CalciteCatalogReader(
                 CalciteSchema.from(rootSchema),

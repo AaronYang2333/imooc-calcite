@@ -60,7 +60,7 @@ public class SqlToRelNode {
                                         SqlNode sqlQuery) throws URISyntaxException {
         SqlToRelConverter sqlToRelConverter = createSqlToRelConverter(parserConfig,
                 sqlToRelConverterConfig, planner);
-        return sqlToRelConverter.convertQuery(sqlQuery, true, true);
+        return sqlToRelConverter.convertQuery(sqlQuery, false, true);
     }
 
     public static RelNode getSqlNode(String sql, RelOptPlanner relOptPlanner) throws SqlParseException, URISyntaxException {

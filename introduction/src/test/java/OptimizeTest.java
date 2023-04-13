@@ -23,7 +23,7 @@ public class OptimizeTest {
 
     @Test
     public void testHepPlanner() throws SqlParseException, URISyntaxException {
-        final String sql = "select a.Id from data as a  join data b on a.Id = b.Id where a.Id>1";
+        final String sql = "select a.Id from data as a join data b on a.Id = b.Id where a.Id>1";
         HepProgramBuilder programBuilder = HepProgram.builder();
         HepPlanner hepPlanner =
                 new HepPlanner(
