@@ -36,7 +36,7 @@ public class SqlToRelNode {
                 .sqlToRelConverterConfig(sqlToRelConverterConfig)
                 .parserConfig(parserConfig)
                 .build());
-        SqlTypeFactoryImpl factory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
+        SqlTypeFactoryImpl factory = new JavaTypeFactoryImpl();
 
         RexBuilder rexBuilder = new RexBuilder(new JavaTypeFactoryImpl());
         RelOptCluster cluster = RelOptCluster.create(planner, rexBuilder);
