@@ -2,12 +2,16 @@ import org.apache.calcite.adapter.enumerable.EnumerableConvention;
 import org.apache.calcite.adapter.enumerable.EnumerableRules;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.externalize.RelWriterImpl;
+import org.apache.calcite.rel.rel2sql.RelToSqlConverter;
+import org.apache.calcite.rel.rel2sql.SqlImplementor;
 import org.apache.calcite.rel.rules.CoreRules;
 import org.apache.calcite.sql.SqlExplainLevel;
 import org.apache.calcite.sql.SqlNode;
+import org.apache.calcite.sql.dialect.CalciteSqlDialect;
 import org.apache.calcite.sql.type.SqlTypeName;
 import org.apache.calcite.tools.RuleSet;
 import org.apache.calcite.tools.RuleSets;
+import org.apache.calcite.util.RelToSqlConverterUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;
@@ -28,18 +32,18 @@ public class OptimizerTest {
 
         Optimizer optimizer = Optimizer.create(schema);
 
-//        String sql =
-//            "select\n" +
-//            "    sum(l.l_extendedprice * l.l_discount) as revenue\n" +
-//            "from\n" +
-//            "    lineitem l\n" +
-//            "where\n" +
-//            "    l.l_shipdate >= ?\n" +
-//            "    and l.l_shipdate < ?\n" +
-//            "    and l.l_discount between (? - 0.01) AND (? + 0.01)\n" +
-//            "    and l.l_quantity < ?";
+        String sql =
+            "select\n" +
+            "    sum(l.l_extendedprice * l.l_discount) as revenue\n" +
+            "from\n" +
+            "    lineitem l\n" +
+            "where\n" +
+            "    l.l_shipdate >= ?\n" +
+            "    and l.l_shipdate < ?\n" +
+            "    and l.l_discount between (? - 0.01) AND (? + 0.01)\n" +
+            "    and l.l_quantity < ?";
 
-        String sql = "select * from lineitem where l_quantity > 10 ";
+//        String sql = "select * from lineitem where l_quantity > 10 ";
 
         SqlNode sqlTree = optimizer.parse(sql);
         SqlNode validatedSqlTree = optimizer.validate(sqlTree);
@@ -78,5 +82,10 @@ public class OptimizerTest {
         relTree.explain(relWriter);
 
         System.out.println(sw.toString());
+
+        RelToSqlConverter relToSqlConverter = new RelToSqlConverter(CalciteSqlDialect.DEFAULT);
+        SqlImplementor.Result visit = relToSqlConverter.visitRoot(relTree);
+        SqlNode sqlNode = visit.asStatement();
+        System.out.println(sqlNode.toSqlString(CalciteSqlDialect.DEFAULT).getSql());
     }
 }
