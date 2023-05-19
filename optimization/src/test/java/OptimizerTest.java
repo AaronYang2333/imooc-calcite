@@ -32,24 +32,24 @@ public class OptimizerTest {
 
         Optimizer optimizer = Optimizer.create(schema);
 
-        String sql =
-            "select\n" +
-            "    sum(l.l_extendedprice * l.l_discount) as revenue\n" +
-            "from\n" +
-            "    lineitem l\n" +
-            "where\n" +
-            "    l.l_shipdate >= ?\n" +
-            "    and l.l_shipdate < ?\n" +
-            "    and l.l_discount between (? - 0.01) AND (? + 0.01)\n" +
-            "    and l.l_quantity < ?";
+//        String sql =
+//            "select\n" +
+//            "    sum(l.l_extendedprice * l.l_discount) as revenue\n" +
+//            "from\n" +
+//            "    lineitem l\n" +
+//            "where\n" +
+//            "    l.l_shipdate >= ?\n" +
+//            "    and l.l_shipdate < ?\n" +
+//            "    and l.l_discount between (? - 0.01) AND (? + 0.01)\n" +
+//            "    and l.l_quantity < ?";
 
-//        String sql = "select * from lineitem where l_quantity > 10 ";
+        String sql = "select * from lineitem where l_quantity > 10 ";
 
         SqlNode sqlTree = optimizer.parse(sql);
         SqlNode validatedSqlTree = optimizer.validate(sqlTree);
         RelNode relTree = optimizer.convert(validatedSqlTree);
 
-        print("AFTER CONVERSION", relTree);
+        print("BEFORE CONVERSION", relTree);
 
         RuleSet rules = RuleSets.ofList(
             CoreRules.FILTER_TO_CALC,

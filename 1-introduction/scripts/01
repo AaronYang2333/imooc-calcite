@@ -3,9 +3,24 @@
 
 在课程开始之前，先跟大家聊一下什么是Apache Calcite 以及为什么要学习Calcite
 
-首先，我们打开Apache Calcite的官网，（https://calcite.apache.org/）会看到，首页标题 “下一代高性能数据库底座”，那也就意味着 我们使用calcite 可以构建一个数据库引擎。 接着下面还列了它的三个主要特点：“Standard SQL”标准SQL解析器，“Query Optimization” 查询优化器， 以及 “Any data, anywhere” 支持联邦查询的特性， 也就是可以连接各类数据源，完成不同数据元之间的联合查询。之后都会有对应的例子，让大家看到，calcite是如何实现上面的特点，以为实现背后的原理。
+首先，我们打开Apache Calcite的官网，（https://calcite.apache.org/）会看到，首页标题 “下一代高性能数据库底座”，那也就意味着 我们使用calcite 可以构建一个数据库引擎。
+如果有构建数据分析平台这样的需求，那calcite就是最合适的选择。
+
+接着下面还列了它的三个主要特点：“Standard SQL”标准SQL解析器，“Query Optimization” 查询优化器， 以及 “Any data, anywhere” 支持联邦查询的特性，
+标准SQL解析器：是说calcite可以想其他SQL解析器一样完成词法分析，语法分析，解析生成一个抽象语法树AST，为之后的剪枝或者优化做准备。
+
+查询优化器，查询优化器是Calcite的主要功能，通过将抽象语法树转成关系代数，并通过优化模型，生成最佳的逻辑执行计划。
+
+（并使用关系代数的一些等价转换规则，反复地对查询树进行尝试性转换，将原始的语法树转換成“优化”的形式
+https://blog.csdn.net/qq_38258510/article/details/105974908）
+ calcite 有两种优化模型， 一种是大家都有的基于规则的优化器RBO(Rule Based Optimizer)， 另一个是CBO(Cost Based Optimizer) 基于代价的优化器
+
+https://cloud.tencent.com/developer/article/1559449
+
+联邦查询，是说calcite可以连接各类数据源，完成不同数据元之间的联合查询。之后都会有对应的例子，让大家看到，calcite是如何实现上面的特点，以为实现背后的原理。
 
 所以，如果对上面的特性感兴趣，或者在工作上有相关的需求，那学习这门课程，了解Calcite 还是很有必要的。
+
 
 Apache Calcite 不仅仅是自身很强，在SQL方面具有全方位的能力，他也收到其他社区和公司的关注，到目前为止它已经广泛适用在各大开源或者企业软件中，例如阿里的MaxCompute, 腾讯TBDS， Flink Hive, 预计算框架Kylin等等
 
@@ -19,20 +34,22 @@ https://github.com/apache/hive
 https://github.com/search?q=repo%3Aapache%2Fhive%20calcite&type=code
 
 那在这次课程中呢，我们会学到那些内容呢？
-第一，通过源码的方式分析掌握calcite的主要概念和关键特性， 通过这期的课呢，大家就能吧Apache calcite的主要功能和整体脉络和原理掌握清楚了。
-第二，利用calcite的主要特点，完成一些自定义扩展需求，（SQL优化，联邦查询，自定义schmea）。这些特性可以用来完成工作中遇到的一些问题，有些点可能比较深入，暂时用不到，但是通过这个课程大概能有个了解也是好的。 然后通过手把手自定义一个schema完成minio对象存储的关联查询。
+第一，通过源码的方式分析掌握calcite的主要概念和关键特性， 通过这期的课呢，大家就能把Apache calcite的主要功能和整体脉络和原理掌握清楚了。
+第二，利用calcite的主要特点，完成一些自定义扩展需求，（SQL优化，联邦查询，自定义schmea）。这些特性可以用来完成工作中遇到的一些问题，这些点可能比较深入，暂时用不到，
+但是通过这个课程大概能有个了解也是好的。 然后通过手把手自定义一个schema完成minio对象存储的关联查询。
 第三， 通过Apache calcite掌握SQL优化流程和高频面试题。 在之后工作，晋升，增加更多的底气和核心竞争力。
 
 
 课程的主要目标是:
 
-掌握apache calcite的基本特性
+掌握apache calcite的基本特性和核心源码
 能做二次开发，满足生产需求
+对SQL优化的了解加深
 
-主要知识点
+主要知识点 （参考calcite的那本书）
 
-1.
-2.
+1.Calcite 框架概览
+2.Calcite 快速上手
 3.
 4.
 实际项目中
@@ -40,7 +57,9 @@ https://github.com/search?q=repo%3Aapache%2Fhive%20calcite&type=code
 
 所需的课程基础
 
-java，SQL, gradle, 数据库，jdbc, 关系代数，
+java，SQL, gradle, 数据库，jdbc, 关系代数
+
+
 
 学了Calcite 有什么好处
 
