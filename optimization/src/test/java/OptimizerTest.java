@@ -77,7 +77,7 @@ public class OptimizerTest {
 
         sw.append(header).append(":").append("\n");
 
-        RelWriterImpl relWriter = new RelWriterImpl(new PrintWriter(sw), SqlExplainLevel.ALL_ATTRIBUTES, true);
+        RelWriterImpl relWriter = new RelWriterImpl(new PrintWriter(sw), SqlExplainLevel.NON_COST_ATTRIBUTES, true);
 
         relTree.explain(relWriter);
 

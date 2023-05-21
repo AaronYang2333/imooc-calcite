@@ -1,7 +1,14 @@
 欢迎大家来到 《Apache Calcite SQL高级特性》 这门课程
 我是本次课程的讲师Aaron
 
-在课程开始之前，先跟大家聊一下什么是Apache Calcite 以及为什么要学习Calcite
+
+前面介绍了什么是Apache Calcite 以及为什么要学习Calcite， 说了很多Apache Calcite的一些特点。
+但还是缺少一些直观的印象。那我们这节课通过三个代码示例，
+
+对Apache Calcite的三个主要特点
+（“Standard SQL”标准SQL解析器，“Query Optimization” 查询优化器， 以及 “Any data, anywhere” 联邦查询的特性） 进行代码的演示。
+
+
 
 很多同学甚至不知道Calcite， 但其实每天都在跟它打交道，因为很多大数据组件的核心都是calcite,
 
