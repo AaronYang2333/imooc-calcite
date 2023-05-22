@@ -11,7 +11,6 @@ import org.apache.calcite.sql.dialect.CalciteSqlDialect;
 import org.apache.calcite.sql.type.SqlTypeName;
 import org.apache.calcite.tools.RuleSet;
 import org.apache.calcite.tools.RuleSets;
-import org.apache.calcite.util.RelToSqlConverterUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;
@@ -19,31 +18,34 @@ import java.io.StringWriter;
 
 public class OptimizerTest {
     @Test
-    public void test_tpch_q6() throws Exception {
-        SimpleTable lineitem = SimpleTable.newBuilder("lineitem")
-            .addField("l_quantity", SqlTypeName.DECIMAL)
-            .addField("l_extendedprice", SqlTypeName.DECIMAL)
-            .addField("l_discount", SqlTypeName.DECIMAL)
-            .addField("l_shipdate", SqlTypeName.DATE)
-            .withRowCount(60_000L)
-            .build();
+    public void test_optimizer() throws Exception {
+        SimpleTable users = SimpleTable.newBuilder("users")
+                .addField("id", SqlTypeName.BIGINT)
+                .addField("name", SqlTypeName.VARCHAR)
+                .addField("age", SqlTypeName.INTEGER)
+                .addField("birthday", SqlTypeName.DATE)
+                .withRowCount(30L)
+                .build();
 
-        SimpleSchema schema = SimpleSchema.newBuilder("tpch").addTable(lineitem).build();
+        SimpleTable orders = SimpleTable.newBuilder("orders")
+                .addField("id", SqlTypeName.BIGINT)
+                .addField("user_id", SqlTypeName.BIGINT)
+                .addField("amount", SqlTypeName.DECIMAL)
+                .addField("total", SqlTypeName.DECIMAL)
+                .addField("created", SqlTypeName.DATE)
+                .withRowCount(90L)
+                .build();
+
+        SimpleSchema schema = SimpleSchema.newBuilder("test")
+                .addTable(users)
+                .addTable(orders)
+                .build();
 
         Optimizer optimizer = Optimizer.create(schema);
 
-        String sql =
-            "select\n" +
-            "    sum(l.l_extendedprice * l.l_discount) as revenue\n" +
-            "from\n" +
-            "    lineitem l\n" +
-            "where\n" +
-            "    l.l_shipdate >= ?\n" +
-            "    and l.l_shipdate < ?\n" +
-            "    and l.l_discount between (? - 0.01) AND (? + 0.01)\n" +
-            "    and l.l_quantity < ?";
-
-//        String sql = "select * from lineitem where l_quantity > 10 ";
+        String sql = "SELECT u.id AS user_id, u.name AS user_name, o.id as order_id" +
+                "    FROM test.users u JOIN test.orders o ON u.id = o.user_id" +
+                "    WHERE u.age > 50";
 
         SqlNode sqlTree = optimizer.parse(sql);
         SqlNode validatedSqlTree = optimizer.validate(sqlTree);
@@ -52,21 +54,22 @@ public class OptimizerTest {
         print("BEFORE CONVERSION", relTree);
 
         RuleSet rules = RuleSets.ofList(
-            CoreRules.FILTER_TO_CALC,
-            CoreRules.PROJECT_TO_CALC,
-            CoreRules.FILTER_CALC_MERGE,
-            CoreRules.PROJECT_CALC_MERGE,
-            EnumerableRules.ENUMERABLE_TABLE_SCAN_RULE,
-            EnumerableRules.ENUMERABLE_PROJECT_RULE,
-            EnumerableRules.ENUMERABLE_FILTER_RULE,
-            EnumerableRules.ENUMERABLE_CALC_RULE,
-            EnumerableRules.ENUMERABLE_AGGREGATE_RULE
+                CoreRules.FILTER_TO_CALC,
+                CoreRules.PROJECT_TO_CALC,
+                CoreRules.FILTER_CALC_MERGE,
+                CoreRules.PROJECT_CALC_MERGE,
+                EnumerableRules.ENUMERABLE_TABLE_SCAN_RULE,
+                EnumerableRules.ENUMERABLE_PROJECT_RULE,
+                EnumerableRules.ENUMERABLE_FILTER_RULE,
+                EnumerableRules.ENUMERABLE_CALC_RULE,
+                EnumerableRules.ENUMERABLE_AGGREGATE_RULE,
+                EnumerableRules.ENUMERABLE_JOIN_RULE
         );
 
         RelNode optimizerRelTree = optimizer.optimize(
-            relTree,
-            relTree.getTraitSet().plus(EnumerableConvention.INSTANCE),
-            rules
+                relTree,
+                relTree.getTraitSet().plus(EnumerableConvention.INSTANCE),
+                rules
         );
 
         print("AFTER OPTIMIZATION", optimizerRelTree);
