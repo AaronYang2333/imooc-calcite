@@ -70,7 +70,6 @@ public class QueryCSV {
 
 
 
-
     @Test
     void query() throws SQLException, IOException {
         String sql = "select empno,NAME from csv.depts where EMPNO = 110";

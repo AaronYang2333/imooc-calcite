@@ -24,7 +24,7 @@ public class OptimizerTest {
                 .addField("name", SqlTypeName.VARCHAR)
                 .addField("age", SqlTypeName.INTEGER)
                 .addField("birthday", SqlTypeName.DATE)
-                .withRowCount(30L)
+                .withRowCount(3000L)
                 .build();
 
         SimpleTable orders = SimpleTable.newBuilder("orders")
@@ -33,7 +33,7 @@ public class OptimizerTest {
                 .addField("amount", SqlTypeName.DECIMAL)
                 .addField("total", SqlTypeName.DECIMAL)
                 .addField("created", SqlTypeName.DATE)
-                .withRowCount(90L)
+                .withRowCount(9000L)
                 .build();
 
         SimpleSchema schema = SimpleSchema.newBuilder("test")
