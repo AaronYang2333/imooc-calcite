@@ -12,9 +12,8 @@ pluginManagement {
 }
 
 rootProject.name = 'imooc-calcite'
-include 'introduction'
-include 'optimization'
-include 'customize-parser'
+include '4-optimization'
+include '2-customize-parser'
 include '1-introduction'
 include 'common'
 
