@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        for (String mavenRepositoryUrl in project.rootProject.ext.mavenRepositoryUrlList) {
+            maven { url(mavenRepositoryUrl) }
+        }
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    for (String mavenRepositoryUrl in project.rootProject.ext.mavenRepositoryUrlList) {
+        maven { url(mavenRepositoryUrl) }
+    }
+}
+
+String calciteVersion = "1.32.0"
+
+dependencies {
+    implementation project(':common')
+    implementation("com.mysql:mysql-connector-j:8.0.31")
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation("org.apache.calcite:calcite-core:${calciteVersion}")
+    implementation("org.apache.calcite:calcite-csv:${calciteVersion}")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+test {
+    useJUnitPlatform()
+}
