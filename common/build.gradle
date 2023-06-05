@@ -8,8 +8,14 @@ repositories {
     mavenCentral()
 }
 
+String calciteVersion = "1.32.0"
+
 dependencies {
+    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("com.mysql:mysql-connector-j:8.0.31")
     implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation("org.apache.calcite:calcite-core:${calciteVersion}")
+    implementation("org.apache.calcite:calcite-csv:${calciteVersion}")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }

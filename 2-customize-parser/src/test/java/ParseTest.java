@@ -27,6 +27,7 @@ public class ParseTest {
         Assertions.assertTrue(sqlNode instanceof SqlSelect);
         SqlSelect sqlSelect = ((SqlSelect) sqlNode);
 
+
         Assertions.assertEquals(
                 sqlSelect.getSelectList().stream().map(o -> ((SqlBasicCall) o).getOperandList().get(0).toString()).collect(Collectors.toList()),
                 Lists.newArrayList("u.id", "u.name", "o.id")
@@ -37,12 +38,13 @@ public class ParseTest {
                 Lists.newArrayList("user_id", "user_name", "order_id")
         );
 
-        Assertions.assertEquals(sqlSelect.getWhere().toString(),"`u`.`id` > 50");
+        Assertions.assertEquals(sqlSelect.getWhere().toString(), "`u`.`id` > 50");
 
         Assertions.assertEquals(sqlSelect.getFrom().toString(),
                 "SELECT *\r\n" +
                         "FROM `users` AS `u`\r\n" +
                         "INNER JOIN `orders` AS `o` ON `u`.`id` = `o`.`user_id`");
     }
+
 
 }

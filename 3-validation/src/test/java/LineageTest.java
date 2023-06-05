@@ -41,7 +41,7 @@ public class LineageTest {
         String mysqlSchemaName = "mysql";
         DataSource mysqlDataSource = JdbcSchema.dataSource(
                 "jdbc:mysql://10.105.20.64:32307/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useAffectedRows=true&serverTimezone=Asia/Shanghai&useSSL=false",
-                "com.mysql.cj.jdbc.Driver", // Change this if you want to use something like MySQL, Oracle, etc.
+                "com.mysql.cj.jdbc.Driver",
                 "root", // username
                 "rPlHyxKEVp"   // password
         );
@@ -75,6 +75,7 @@ public class LineageTest {
             IntStream.range(0, fieldList.size()).boxed().forEach(index -> {
                 RelDataTypeField relDataTypeField = fieldList.get(index);
                 RelColumnOrigin columnOrigin = metadataQuery.getColumnOrigin(relRoot.rel, index);
+                assert columnOrigin != null;
                 System.out.println(relDataTypeField.getName() + " -> " + wrapMsg(columnOrigin));
             });
 
@@ -85,9 +86,9 @@ public class LineageTest {
     }
 
     private String wrapMsg(RelColumnOrigin columnOrigin) {
-        Integer oridinal = columnOrigin.getOriginColumnOrdinal();
+        Integer ordinal = columnOrigin.getOriginColumnOrdinal();
         RelOptTable originTable = columnOrigin.getOriginTable();
-        RelDataTypeField relDataTypeField = originTable.getRowType().getFieldList().get(oridinal);
+        RelDataTypeField relDataTypeField = originTable.getRowType().getFieldList().get(ordinal);
 
         return Joiner.on(".").join(originTable.getQualifiedName(), relDataTypeField.getName());
     }
