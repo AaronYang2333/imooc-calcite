@@ -17,4 +17,5 @@ include '3-validation'
 include '2-customize-parser'
 include '1-introduction'
 include 'common'
+include 'driver'
 
